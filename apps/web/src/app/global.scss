@@ -1,0 +1,13 @@
+@import "../app.scss";
+
+body {
+    background-color: $background;
+    color: $text;
+    display: flex;
+    flex-direction: column;
+    font-family: "Ubuntu", sans-serif;
+
+    main {
+        flex-grow: 1;
+    }
+}
