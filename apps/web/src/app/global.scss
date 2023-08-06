@@ -2,6 +2,7 @@
 
 body {
     background-color: $background;
+    min-height: 100vh;
     color: $text;
     display: flex;
     flex-direction: column;
@@ -11,3 +12,4 @@ body {
         flex-grow: 1;
     }
 }
+
