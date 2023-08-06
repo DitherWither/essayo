@@ -2,6 +2,8 @@
 
 This repo uses pnpm instead of npm, install it using [this guide](https://pnpm.io/installation)
 
+Being developed by (DitherWither)[https://github.com/DitherWither/] and (Arthavruksha)[https://github.com/Arthavruksha/]
+
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
