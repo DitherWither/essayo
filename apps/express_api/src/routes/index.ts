@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import { HelloRouter } from "./hello";
+import { authRouter } from "./auth";
 
-const AppRouter: Router = express.Router({mergeParams: true});
+const appRouter: Router = express.Router({ mergeParams: true });
 
-AppRouter.use("/hello", HelloRouter);
+appRouter.use("/auth", authRouter)
 
-export { AppRouter };
+export { appRouter };

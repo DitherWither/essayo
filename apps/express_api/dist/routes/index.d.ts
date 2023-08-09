@@ -1,4 +1,4 @@
 import { Router } from "express";
-declare const AppRouter: Router;
-export { AppRouter };
+declare const appRouter: Router;
+export { appRouter };
 //# sourceMappingURL=index.d.ts.map

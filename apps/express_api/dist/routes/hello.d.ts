@@ -1,4 +1,4 @@
 import { type Router } from "express";
-declare const HelloRouter: Router;
-export { HelloRouter };
+declare const helloRouter: Router;
+export { helloRouter };
 //# sourceMappingURL=hello.d.ts.map
