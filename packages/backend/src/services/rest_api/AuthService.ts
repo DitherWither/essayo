@@ -1,11 +1,22 @@
-import { UserCreateError, CreateUser, UsersTable, removePassword } from "../..";
+import {
+    UserCreateError,
+    CreateUser,
+    UsersTable,
+    removePassword,
+    AuthTokenGenerator,
+} from "../..";
 import { RestApiResponse } from "./types";
 
 export class AuthService {
     private usersTable: UsersTable;
+    private authTokenGenerator: AuthTokenGenerator;
 
-    constructor(usersTable: UsersTable) {
+    constructor(
+        usersTable: UsersTable,
+        authTokenGenerator: AuthTokenGenerator
+    ) {
         this.usersTable = usersTable;
+        this.authTokenGenerator = authTokenGenerator;
     }
 
     async signup(newUser: CreateUser): Promise<RestApiResponse> {
@@ -14,10 +25,11 @@ export class AuthService {
             return userCreateErrorToResponse(error);
         }
         if (user != null) {
-            // TODO: return jwt
+            const token = this.authTokenGenerator.createToken(user.userId);
             return {
-                status: 200,
+                status: 201,
                 body: JSON.stringify({
+                    token,
                     user: removePassword(user),
                 }),
             };

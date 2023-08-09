@@ -6,12 +6,18 @@ import { appRouter } from "./routes";
 const app = express();
 
 dotenv.config();
-const database_url = process.env.POSTGRES_URL;
-if (database_url == undefined) {
+
+const databaseUrl = process.env.POSTGRES_URL;
+if (databaseUrl == undefined) {
     throw new Error("Could not get database url");
 }
 
-init_postgres(database_url);
+const secretKey = process.env.SECRET_KEY;
+if (secretKey == undefined) {
+    throw new Error("Could not get secret key");
+}
+
+init_postgres(databaseUrl, secretKey);
 
 app.use(express.json());
 app.use("/api/v1", appRouter);
