@@ -1,3 +1,4 @@
+import * as argon2 from "argon2";
 import {
     UserCreateError,
     CreateUser,
@@ -44,6 +45,52 @@ export class AuthService {
             }),
         };
     }
+
+    async login(loginUser: LoginUser): Promise<RestApiResponse> {
+        const user = await this.usersTable.getByEmail(loginUser.email);
+
+        if (user == null) {
+            return {
+                status: 400,
+                body: JSON.stringify({
+                    error: "UserDoesNotExist",
+                    error_message:
+                        "The entered email does not exist, create an account instead",
+                }),
+            };
+        }
+
+        let password = user.password;
+        if (password == undefined) {
+            return {
+                status: 500,
+                body: JSON.stringify({
+                    error: "UnknownError",
+                    error_message:
+                        "An unknown error occurred, please try again, and report this bug if it persists",
+                }),
+            };
+        }
+
+        if (await argon2.verify(password, loginUser.password)) {
+            let token = this.authTokenGenerator.createToken(user.userId);
+            return {
+                status: 201,
+                body: JSON.stringify({
+                    token,
+                    user: removePassword(user),
+                }),
+            };
+        } else {
+            return {
+                status: 400,
+                body: JSON.stringify({
+                    error: "WrongPassword",
+                    error_message: "Invalid Password, please try again",
+                }),
+            };
+        }
+    }
 }
 
 function userCreateErrorToResponse(error: UserCreateError): RestApiResponse {
@@ -76,4 +123,9 @@ function userCreateErrorToResponse(error: UserCreateError): RestApiResponse {
                 }),
             };
     }
+}
+
+export interface LoginUser {
+    email: string;
+    password: string;
 }
